@@ -2,6 +2,7 @@
 
 /**
  * php通过socket发送http GET请求
+ *
  */
 
 $fp  =  fsockopen ( "ssl://www.163.com" ,  443 ,  $errno ,  $errstr ,  30 );
