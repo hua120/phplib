@@ -25,4 +25,3 @@ $name->replaceChild($seven,$name->firstChild);
 
 header('content-type: text/xml');
 echo $dom->savexml();
-
