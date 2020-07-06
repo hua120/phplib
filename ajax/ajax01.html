@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		function vote(){
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET','vote.php',true);	//打开链接
+			xhr.send(null);
+		}
+	</script>
+</head>
+<body>
+<div>
+<p><img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1593966822447&di=eb369bb3aa1d0d7d42c0af5d2aacec20&imgtype=0&src=http%3A%2F%2Fcimg2.163.com%2Fcatchimg%2F20090930%2F8458904_45.jpg" alt=""></p>
+<p><button onclick="vote()">投票</button></p>
+</div>
+</body>
+</html>

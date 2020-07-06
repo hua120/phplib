@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		function selfile(){
+			var pic = document.getElementsByTagName('input')[0].files[0];
+			console.log(pic);
+			var tmpimg = document.createElement('img');
+			tmpimg.src = window.URL.createObjectURL(pic);
+			document.getElementsByTagName('body')[0].appendChild(tmpimg);
+		}
+	</script>
+</head>
+<body>
+<input type="file" name="pic" onchange="selfile()"> <br>
+</body>
+</html>

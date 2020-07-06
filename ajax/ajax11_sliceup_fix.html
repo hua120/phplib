@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script>
+		/**
+		 * 用到的api
+		 *file-->继承自-->blob
+		 * blob有slice方法, 可以截取二进制对象的一部分
+		 *
+		 * 思路: 截取10M 上传
+		 * 用定时器,不断调用上传方法
+		 */
+		var xhr = new XMLHttpRequest();
+
+		function up(fd){
+			xhr.open('POST','sliceup.php',false);
+			xhr.send(fd);
+		}
+
+		var clock = null;
+
+		function fire(){
+			clock = window.setInterval(sendfile,1000);
+		}
+
+		//闭包计数器
+		var sendfile = (function(){		//匿名函数立即执行的 值/结果
+			const LENGTH = 10 * 1024 * 1024;
+			var start = 0;
+			var end = start + LENGTH;
+			var blob = null;
+			var fd = null;
+			var percent = 0;
+			var sending = false;	//标志: 正在上传中
+			return (function(){
+				if(sending == true){
+					return;
+				}
+
+				var mov = document.getElementsByName('mov')[0].files[0];
+
+				if(start > mov.size){
+					clearInterval(clock);
+					return;
+				}
+
+				blob = mov.slice(start,end);
+				fd = new FormData();
+				fd.append('part',blob);
+				up(fd);
+				start = end;
+				end = start + LENGTH;
+				sending = false;	//上传完了
+
+				percent = 100 * end / mov.size;
+				if(percent > 100) {
+					percent = 100;
+				}
+				document.getElementById('bar').style.width = percent + '%';
+			});
+		})();
+
+	</script>
+	<style>
+		#progress {
+			width: 500px;
+			height: 30px;
+			border: 1px solid green;
+		}
+		#bar {
+			width: 0%;
+			height: 30px;
+			background-color: green;
+		}
+	</style>
+</head>
+<body>
+<h1>html5大文件切割上传</h1>
+<input type="file" name="mov" onchange="fire()">
+<br><br>
+<div id="progress">
+	<div id="bar"></div>
+</div>
+<div id="debug"></div>
+</body>
+</html>
